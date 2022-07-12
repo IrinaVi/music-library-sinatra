@@ -39,4 +39,26 @@ describe Application do
     end
   end
 
+  context 'GET /artists' do
+    it 'returns a list of artist names' do
+      response = get('/artists')
+
+      expect(response.status).to eq 200
+      expect(response.body).to eq 'Pixies,ABBA,Taylor Swift,Nina Simone,Kiasmos'
+    end
+  end
+
+  context 'POST /artists' do
+    it 'adds a new artist to the db, when get is called, returns the list with the new artist' do
+      response = post('artists', name: 'Wild nothing', genre:'Indie')
+
+      expect(response.status).to eq 200
+      expect(response.body).to eq 'The artist was added!'
+
+      response = get('artists')
+      expect(response.body).to eq 'Pixies,ABBA,Taylor Swift,Nina Simone,Kiasmos,Wild nothing'
+
+    end
+  end
+
 end

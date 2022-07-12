@@ -37,4 +37,24 @@ class Application < Sinatra::Base
     return ''
 
   end
+
+  get '/artists' do
+    repo = ArtistRepository.new
+    all_artists = repo.all
+    artists = all_artists.map do |artist| artist.name end.join(",")
+
+    return artists
+  end
+
+post '/artists' do
+  new_artist = Artist.new
+  new_artist.name = params[:name]
+  new_artist.genre = params[:genre]
+
+  repo = ArtistRepository.new
+  repo.create(new_artist)
+
+  return 'The artist was added!'
+end
+
 end
